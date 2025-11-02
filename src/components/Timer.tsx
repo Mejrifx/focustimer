@@ -99,10 +99,10 @@ export default function Timer({ focusDuration, breakDuration, onModeChange, them
       {renderAnimation()}
 
       <div className="text-center">
-        <div className="text-6xl font-bold tracking-wider mb-2">
+        <div className="text-6xl font-bold tracking-wider mb-2 text-gray-800 dark:text-gray-100">
           {formatTime(timeLeft)}
         </div>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-gray-600 dark:text-gray-300">
           {isBreak ? 'Break Time' : 'Focus Session'}
         </p>
       </div>
@@ -110,7 +110,7 @@ export default function Timer({ focusDuration, breakDuration, onModeChange, them
       <div className="flex gap-4">
         <button
           onClick={handleStartPause}
-          className="flex items-center gap-2 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition-colors shadow-md"
+          className="flex items-center gap-2 px-6 py-3 bg-amber-600 dark:bg-amber-500 hover:bg-amber-700 dark:hover:bg-amber-600 text-white rounded-lg font-medium transition-colors shadow-md"
         >
           {isRunning ? (
             <>
@@ -127,7 +127,7 @@ export default function Timer({ focusDuration, breakDuration, onModeChange, them
 
         <button
           onClick={handleReset}
-          className="flex items-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors shadow-md"
+          className="flex items-center gap-2 px-6 py-3 bg-gray-600 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg font-medium transition-colors shadow-md"
         >
           <RotateCcw size={20} />
           Reset
