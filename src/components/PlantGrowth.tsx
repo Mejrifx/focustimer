@@ -112,15 +112,6 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
             }}
           >
             {/* Stem */}
-            <line
-              x1="100"
-              y1={stemBaseY}
-              x2="100"
-              y2={stemHeight}
-              stroke="url(#stemGradient)"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
             <motion.line
               x1="100"
               y1={stemBaseY}
@@ -138,7 +129,6 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
                 pathLength: { duration: 1 },
                 x2: { duration: 2, repeat: Infinity, ease: "easeInOut" }
               }}
-              style={{ opacity: 0 }}
             />
 
             {/* First set of leaves (lower) - properly attached to stem */}
