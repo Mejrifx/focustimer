@@ -112,6 +112,15 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
             }}
           >
             {/* Stem */}
+            <line
+              x1="100"
+              y1={stemBaseY}
+              x2="100"
+              y2={stemHeight}
+              stroke="url(#stemGradient)"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
             <motion.line
               x1="100"
               y1={stemBaseY}
@@ -123,12 +132,13 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
               initial={{ pathLength: 0 }}
               animate={{ 
                 pathLength: 1,
-                y: isBreak ? [stemHeight, stemHeight - 2, stemHeight] : stemHeight
+                x2: isBreak ? [100, 98, 100] : 100
               }}
               transition={{
                 pathLength: { duration: 1 },
-                y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                x2: { duration: 2, repeat: Infinity, ease: "easeInOut" }
               }}
+              style={{ opacity: 0 }}
             />
 
             {/* First set of leaves (lower) - properly attached to stem */}
@@ -232,7 +242,9 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
             {/* Flower - properly positioned at top of stem */}
             {growthProgress > 0.8 && (
               <motion.g
-                transform={`translate(100, ${stemHeight})`}
+                style={{
+                  transformOrigin: `100px ${stemHeight}px`
+                }}
                 initial={{ scale: 0 }}
                 animate={{
                   scale: [0, 1.2, 1],
@@ -245,8 +257,8 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
               >
                 {/* Flower Center */}
                 <circle
-                  cx="0"
-                  cy="0"
+                  cx="100"
+                  cy={stemHeight}
                   r="10"
                   fill="url(#flowerCenterGradient)"
                   stroke="#f59e0b"
@@ -257,8 +269,8 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
                 {/* Flower Petals - properly attached to center */}
                 {[0, 72, 144, 216, 288].map((angle, i) => {
                   const angleRad = (angle * Math.PI) / 180;
-                  const petalX = 18 * Math.cos(angleRad);
-                  const petalY = 18 * Math.sin(angleRad);
+                  const petalX = 100 + 18 * Math.cos(angleRad);
+                  const petalY = stemHeight + 18 * Math.sin(angleRad);
                   return (
                     <motion.ellipse
                       key={i}
