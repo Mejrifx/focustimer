@@ -65,7 +65,7 @@ function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="container mx-auto px-4 py-6 md:py-8 max-w-6xl">
         <div className="flex justify-end mb-4">
           <motion.button
             onClick={() => setIsDark(!isDark)}
@@ -77,17 +77,17 @@ function App() {
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </motion.button>
         </div>
-        <header className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+        <header className="text-center mb-6 md:mb-8">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-2">
             Focus Timer
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-lg">
+          <p className="text-gray-600 dark:text-gray-300 text-base md:text-lg">
             Choose your vibe, stay focused
           </p>
         </header>
 
         <motion.div
-          className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg mb-8"
+          className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg mb-6 md:mb-8"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.1 }}
@@ -118,7 +118,7 @@ function App() {
           </div>
         </motion.div>
 
-        <main className="mb-8">
+        <main className="mb-8 -mt-4">
           <Timer
             focusDuration={focusDuration}
             breakDuration={breakDuration}

@@ -13,7 +13,7 @@ export default function RocketFuelTank({ fillLevel, isBreak }: RocketFuelTankPro
   const fuelLevel = 130 - fillHeight * 0.7;
 
   return (
-    <div className="relative w-64 h-64 mx-auto flex items-center justify-center">
+    <div className="relative w-80 h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] mx-auto flex items-center justify-center">
       <div className="relative">
         <svg
           viewBox="0 0 200 200"
@@ -301,10 +301,10 @@ export default function RocketFuelTank({ fillLevel, isBreak }: RocketFuelTankPro
           <motion.div
             className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pointer-events-none"
             style={{
-              width: '200px',
-              height: '200px',
+              width: '280px',
+              height: '280px',
               opacity: flameIntensity,
-              marginBottom: '-75px'
+              marginBottom: '-100px'
             }}
             animate={{ opacity: flameIntensity }}
             transition={{ duration: 0.5 }}

@@ -11,7 +11,7 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
   const stemBaseY = 160; // Base of stem at top of pot
   
   return (
-    <div className="relative w-64 h-64 mx-auto flex items-center justify-center">
+    <div className="relative w-80 h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] mx-auto flex items-center justify-center">
       <svg
         viewBox="0 0 200 200"
         className="w-full h-full"

@@ -18,7 +18,7 @@ export default function SandTimer({ fillLevel, isBreak }: SandTimerProps) {
   const isFlipping = fillLevel < 0.01 || fillLevel > 0.99;
 
   return (
-    <div className="relative w-64 h-64 mx-auto flex items-center justify-center">
+    <div className="relative w-80 h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] mx-auto flex items-center justify-center">
       <motion.svg
         viewBox="0 0 200 200"
         className="w-full h-full"

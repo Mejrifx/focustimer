@@ -95,31 +95,31 @@ export default function Timer({ focusDuration, breakDuration, onModeChange, them
   };
 
   return (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col items-center gap-10 md:gap-12">
       {renderAnimation()}
 
       <div className="text-center">
-        <div className="text-6xl font-bold tracking-wider mb-2 text-gray-800 dark:text-gray-100">
+        <div className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider mb-4 text-gray-800 dark:text-gray-100">
           {formatTime(timeLeft)}
         </div>
-        <p className="text-lg text-gray-600 dark:text-gray-300">
+        <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium">
           {isBreak ? 'Break Time' : 'Focus Session'}
         </p>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 md:gap-6">
         <button
           onClick={handleStartPause}
-          className="flex items-center gap-2 px-6 py-3 bg-amber-600 dark:bg-amber-500 hover:bg-amber-700 dark:hover:bg-amber-600 text-white rounded-lg font-medium transition-colors shadow-md"
+          className="flex items-center gap-3 px-8 py-4 md:px-10 md:py-5 bg-amber-600 dark:bg-amber-500 hover:bg-amber-700 dark:hover:bg-amber-600 text-white rounded-xl font-semibold text-lg md:text-xl transition-colors shadow-lg"
         >
           {isRunning ? (
             <>
-              <Pause size={20} />
+              <Pause size={24} />
               Pause
             </>
           ) : (
             <>
-              <Play size={20} />
+              <Play size={24} />
               Start
             </>
           )}
@@ -127,9 +127,9 @@ export default function Timer({ focusDuration, breakDuration, onModeChange, them
 
         <button
           onClick={handleReset}
-          className="flex items-center gap-2 px-6 py-3 bg-gray-600 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg font-medium transition-colors shadow-md"
+          className="flex items-center gap-3 px-8 py-4 md:px-10 md:py-5 bg-gray-600 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-xl font-semibold text-lg md:text-xl transition-colors shadow-lg"
         >
-          <RotateCcw size={20} />
+          <RotateCcw size={24} />
           Reset
         </button>
       </div>
