@@ -108,6 +108,19 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
           opacity="0.8"
         />
 
+        {/* Stem - always visible, rendered separately so not affected by opacity animations */}
+        {growthProgress > 0.1 && (
+          <line
+            x1="100"
+            y1={stemBaseY}
+            x2="100"
+            y2={stemHeight}
+            stroke="url(#stemGradient)"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+        )}
+
         {growthProgress > 0.1 && (
           <motion.g
             initial={{ opacity: 0 }}
@@ -118,32 +131,6 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
               opacity: { duration: 0.5 },
             }}
           >
-            {/* Stem - always visible */}
-            <line
-              x1="100"
-              y1={stemBaseY}
-              x2="100"
-              y2={stemHeight}
-              stroke="url(#stemGradient)"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-            {/* Stem growth animation overlay */}
-            <motion.path
-              d={`M 100 ${stemBaseY} L 100 ${stemHeight}`}
-              fill="none"
-              stroke="url(#stemGradient)"
-              strokeWidth="5"
-              strokeLinecap="round"
-              initial={{ pathLength: 0 }}
-              animate={{ 
-                pathLength: 1
-              }}
-              transition={{
-                pathLength: { duration: 1 }
-              }}
-              style={{ opacity: 0.5 }}
-            />
 
             {/* First set of leaves (lower) - properly attached to stem */}
             {growthProgress > 0.3 && (
