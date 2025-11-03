@@ -35,15 +35,22 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
           </linearGradient>
 
           <radialGradient id="flowerCenterGradient" cx="50%" cy="50%">
-            <stop offset="0%" stopColor="#fef3c7" />
-            <stop offset="50%" stopColor="#fbbf24" />
-            <stop offset="100%" stopColor="#f59e0b" />
+            <stop offset="0%" stopColor="#78350f" />
+            <stop offset="30%" stopColor="#92400e" />
+            <stop offset="60%" stopColor="#a16207" />
+            <stop offset="100%" stopColor="#ca8a04" />
           </radialGradient>
 
-          <radialGradient id="petalGradient" cx="50%" cy="50%">
+          <linearGradient id="petalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#fef3c7" />
-            <stop offset="40%" stopColor="#fde68a" />
-            <stop offset="100%" stopColor="#fbbf24" />
+            <stop offset="30%" stopColor="#fde68a" />
+            <stop offset="70%" stopColor="#fbbf24" />
+            <stop offset="100%" stopColor="#f59e0b" />
+          </linearGradient>
+
+          <radialGradient id="petalHighlight" cx="30%" cy="30%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#fef3c7" stopOpacity="0" />
           </radialGradient>
 
           <filter id="plantGlow">
@@ -111,8 +118,8 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
               opacity: { duration: 0.5 },
             }}
           >
-            {/* Stem */}
-            <motion.line
+            {/* Stem - always visible */}
+            <line
               x1="100"
               y1={stemBaseY}
               x2="100"
@@ -120,15 +127,22 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
               stroke="url(#stemGradient)"
               strokeWidth="5"
               strokeLinecap="round"
+            />
+            {/* Stem growth animation overlay */}
+            <motion.path
+              d={`M 100 ${stemBaseY} L 100 ${stemHeight}`}
+              fill="none"
+              stroke="url(#stemGradient)"
+              strokeWidth="5"
+              strokeLinecap="round"
               initial={{ pathLength: 0 }}
               animate={{ 
-                pathLength: 1,
-                x2: isBreak ? [100, 98, 100] : 100
+                pathLength: 1
               }}
               transition={{
-                pathLength: { duration: 1 },
-                x2: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                pathLength: { duration: 1 }
               }}
+              style={{ opacity: 0.5 }}
             />
 
             {/* First set of leaves (lower) - properly attached to stem */}
@@ -229,7 +243,7 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
               </>
             )}
 
-            {/* Flower - properly positioned at top of stem */}
+            {/* Flower - realistic sunflower/daisy style */}
             {growthProgress > 0.8 && (
               <motion.g
                 style={{
@@ -245,30 +259,29 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
                   rotate: { duration: 20, repeat: Infinity, ease: "linear" }
                 }}
               >
-                {/* Flower Center */}
-                <circle
-                  cx="100"
-                  cy={stemHeight}
-                  r="10"
-                  fill="url(#flowerCenterGradient)"
-                  stroke="#f59e0b"
-                  strokeWidth="1.5"
-                  filter="url(#plantGlow)"
-                />
-
-                {/* Flower Petals - properly attached to center */}
-                {[0, 72, 144, 216, 288].map((angle, i) => {
+                {/* Outer Petals - Large petals arranged in a circle */}
+                {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => {
                   const angleRad = (angle * Math.PI) / 180;
-                  const petalX = 100 + 18 * Math.cos(angleRad);
-                  const petalY = stemHeight + 18 * Math.sin(angleRad);
+                  const petalCenterX = 100 + 28 * Math.cos(angleRad);
+                  const petalCenterY = stemHeight + 28 * Math.sin(angleRad);
+                  const petalRotation = angle;
+                  
                   return (
-                    <motion.ellipse
-                      key={i}
-                      cx={petalX}
-                      cy={petalY}
-                      rx="7"
-                      ry="11"
+                    <motion.path
+                      key={`outer-${i}`}
+                      d={`M ${petalCenterX} ${petalCenterY} 
+                          Q ${petalCenterX - 10 * Math.cos(angleRad - 0.5)} ${petalCenterY - 10 * Math.sin(angleRad - 0.5)}, 
+                          ${petalCenterX - 5} ${petalCenterY - 18}
+                          Q ${petalCenterX - 2} ${petalCenterY - 25}, 
+                          ${petalCenterX + 2} ${petalCenterY - 25}
+                          Q ${petalCenterX + 5} ${petalCenterY - 18}, 
+                          ${petalCenterX + 10 * Math.cos(angleRad + 0.5)} ${petalCenterY - 10 * Math.sin(angleRad + 0.5)}
+                          Q ${petalCenterX + 8} ${petalCenterY - 2}, 
+                          ${petalCenterX} ${petalCenterY} Z`}
                       fill="url(#petalGradient)"
+                      stroke="#f59e0b"
+                      strokeWidth="0.8"
+                      transform={`rotate(${petalRotation} ${petalCenterX} ${petalCenterY})`}
                       filter="url(#plantGlow)"
                       opacity="0.95"
                       animate={{
@@ -278,12 +291,82 @@ export default function PlantGrowth({ fillLevel, isBreak }: PlantGrowthProps) {
                       transition={{
                         duration: 2,
                         repeat: Infinity,
-                        delay: i * 0.15,
+                        delay: i * 0.1,
                         ease: "easeInOut"
                       }}
                     />
                   );
                 })}
+
+                {/* Inner Petals - Smaller petals in between */}
+                {[15, 45, 75, 105, 135, 165, 195, 225, 255, 285, 315, 345].map((angle, i) => {
+                  const angleRad = (angle * Math.PI) / 180;
+                  const petalCenterX = 100 + 20 * Math.cos(angleRad);
+                  const petalCenterY = stemHeight + 20 * Math.sin(angleRad);
+                  const petalRotation = angle;
+                  
+                  return (
+                    <motion.path
+                      key={`inner-${i}`}
+                      d={`M ${petalCenterX} ${petalCenterY} 
+                          Q ${petalCenterX - 7 * Math.cos(angleRad - 0.5)} ${petalCenterY - 7 * Math.sin(angleRad - 0.5)}, 
+                          ${petalCenterX - 3} ${petalCenterY - 12}
+                          Q ${petalCenterX - 1} ${petalCenterY - 18}, 
+                          ${petalCenterX + 1} ${petalCenterY - 18}
+                          Q ${petalCenterX + 3} ${petalCenterY - 12}, 
+                          ${petalCenterX + 7 * Math.cos(angleRad + 0.5)} ${petalCenterY - 7 * Math.sin(angleRad + 0.5)}
+                          Q ${petalCenterX + 5} ${petalCenterY - 1}, 
+                          ${petalCenterX} ${petalCenterY} Z`}
+                      fill="url(#petalGradient)"
+                      stroke="#fbbf24"
+                      strokeWidth="0.6"
+                      transform={`rotate(${petalRotation} ${petalCenterX} ${petalCenterY})`}
+                      opacity="0.9"
+                      animate={{
+                        opacity: [0.85, 0.95, 0.85],
+                        scale: [1, 1.03, 1]
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        delay: i * 0.12,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  );
+                })}
+
+                {/* Flower Center - Dark brown center like a sunflower */}
+                <circle
+                  cx="100"
+                  cy={stemHeight}
+                  r="12"
+                  fill="url(#flowerCenterGradient)"
+                  stroke="#78350f"
+                  strokeWidth="2"
+                  filter="url(#plantGlow)"
+                />
+                {/* Center texture dots */}
+                {[0, 60, 120, 180, 240, 300].map((angle, i) => {
+                  const angleRad = (angle * Math.PI) / 180;
+                  return (
+                    <circle
+                      key={`dot-${i}`}
+                      cx={100 + 4 * Math.cos(angleRad)}
+                      cy={stemHeight + 4 * Math.sin(angleRad)}
+                      r="1.5"
+                      fill="#78350f"
+                      opacity="0.7"
+                    />
+                  );
+                })}
+                <circle
+                  cx="100"
+                  cy={stemHeight}
+                  r="4"
+                  fill="#92400e"
+                  opacity="0.8"
+                />
               </motion.g>
             )}
           </motion.g>
